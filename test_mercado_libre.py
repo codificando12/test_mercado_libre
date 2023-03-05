@@ -51,6 +51,8 @@ class SearchMercadoLibre(unittest.TestCase):
         
         driver.find_element(By.XPATH, '//*[@id="andes-dropdown-más-relevantes-list-option-price_asc"]/div/div/span').click()
         time.sleep(10)
+
+        #create a list with the item names and prices
         titles = []
         prices = []
         for title_price in range(5):
@@ -58,11 +60,8 @@ class SearchMercadoLibre(unittest.TestCase):
             titles.append(title.text)
             price = driver.find_element(By.XPATH, f'/html/body/main/div/div[2]/section/ol/li[{title_price + 1}]/div/div/div[2]/div[2]/div[1]/div[1]/div/div/div/span[1]/span[2]/span[2]')
             prices.append(price.text)
-            
-        # //*[@id="root-app"]/div/div[2]/section/ol/li[1]
-        
-        # //*[@id="root-app"]/div/div[2]/section/ol/li[2]
-        # //*[@id="root-app"]/div/div[2]/section/ol/li[2]/div/div/div[2]/div[1]/a/h2
+
+        #export date to an excel file  
         create_xlsx(titles, prices)
         
     def tearDown(self):
