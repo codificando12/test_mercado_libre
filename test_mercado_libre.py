@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+from create_xlsx import create_xlsx
 
 class SearchMercadoLibre(unittest.TestCase):
 
@@ -41,7 +42,29 @@ class SearchMercadoLibre(unittest.TestCase):
         caba.click()
         time.sleep(10)
         
+        # order by cheapest price
+        expected_options = ['Más relevantes', 'Menor precio', 'Mayor precio']
+        active_option = []
 
+        select_filter_price = driver.find_element(By.XPATH, '//*[@id="root-app"]/div/div[2]/section/div[2]/div/div/div/div[2]/div/div/button')
+        select_filter_price.click()
+        
+        driver.find_element(By.XPATH, '//*[@id="andes-dropdown-más-relevantes-list-option-price_asc"]/div/div/span').click()
+        time.sleep(10)
+        titles = []
+        prices = []
+        for title_price in range(5):
+            title = driver.find_element(By.XPATH, f'/html/body/main/div/div[2]/section/ol/li[{title_price + 1}]/div/div/div[2]/div[1]/a/h2')
+            titles.append(title.text)
+            price = driver.find_element(By.XPATH, f'/html/body/main/div/div[2]/section/ol/li[{title_price + 1}]/div/div/div[2]/div[2]/div[1]/div[1]/div/div/div/span[1]/span[2]/span[2]')
+            prices.append(price.text)
+            
+        # //*[@id="root-app"]/div/div[2]/section/ol/li[1]
+        
+        # //*[@id="root-app"]/div/div[2]/section/ol/li[2]
+        # //*[@id="root-app"]/div/div[2]/section/ol/li[2]/div/div/div[2]/div[1]/a/h2
+        create_xlsx(titles, prices)
+        
     def tearDown(self):
         self.driver.quit()
 
