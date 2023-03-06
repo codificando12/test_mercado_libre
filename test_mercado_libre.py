@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 from create_xlsx import create_xlsx
+from create_json import export_json
 
 class SearchMercadoLibre(unittest.TestCase):
 
@@ -63,6 +64,7 @@ class SearchMercadoLibre(unittest.TestCase):
 
         #export date to an excel file  
         create_xlsx(titles, prices)
+        export_json(titles,prices)
         
     def tearDown(self):
         self.driver.quit()
