@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 from create_xlsx import create_xlsx
 from create_json import export_json
+from create_csv import export_csv
 
 class SearchMercadoLibre(unittest.TestCase):
 
@@ -20,9 +21,11 @@ class SearchMercadoLibre(unittest.TestCase):
         driver = self.driver
         driver.find_element(By.ID, 'AR').click()
         
+        time.sleep(10)
         # Accpet cookies
         WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/div[1]/div[2]/button[1]')))
         driver.find_element(By.XPATH, '/html/body/div[2]/div[1]/div[2]/button[1]').click()
+        
 
         # Skip select postal code
         WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[3]/div/div/div[2]/div/div/div[2]/button[2]/span')))
@@ -65,6 +68,7 @@ class SearchMercadoLibre(unittest.TestCase):
         #export date to an excel file  
         create_xlsx(titles, prices)
         export_json(titles,prices)
+        export_csv(titles, prices)
         
     def tearDown(self):
         self.driver.quit()
